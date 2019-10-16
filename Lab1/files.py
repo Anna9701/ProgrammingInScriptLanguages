@@ -87,3 +87,4 @@ for key, val in dictionary.items():
 
 print("Number of anagrams")
 print(count)
+print(dictionary[:20])
