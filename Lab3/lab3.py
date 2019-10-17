@@ -18,16 +18,21 @@ def exercise1():
          (2, 4), (3, 2), (3, 4), (4, 2), (4, 5), (4, 3), (5, 4), (5, 1), (5, 2)])
     show_graph(graph)
 
-def exercise2(g):
-    graph = nx.Graph()
-    graph.add_node(1)
-    graph.add_node(2)
-    color_map = []
-    for node in graph:
-        color_map.append('green')
-    nx.draw(graph, with_labels=True, node_colors=color_map)
-    plt.draw()
-    plt.show()
+def exercise2():
+    node_1 = Node(1)
+    node_2 = Node(2, node_1)
+    node_3 = Node(3, node_2)
+    node_4 = Node(4, node_2, node_3)
+    node_5 = Node(5, node_1, node_2, node_4)
+
+    node_1.add__neighbours(node_2, node_5)
+    node_2.add__neighbours(node_5, node_4, node_3)
+    node_3.add__neighbours(node_4)
+    node_4.add__neighbours(node_5)
+
+    my_graph = Graph(node_1, node_2, node_3, node_4, node_5)
+    my_graph.Bfs(node_1)
+    input("Press Enter to continue...")
 
 WHITE = "White"
 GRAY = "Gray"
@@ -48,7 +53,7 @@ class Graph:
         graph = nx.Graph()
         colors_val_map = { }
         for node in self.nodes:
-            for neighbour in node.pi:
+            for neighbour in node.adj:
                 graph.add_edge(node.label, neighbour.label)
             if node.color == WHITE:
                 colors_val_map[node.label] = 0.9
@@ -61,19 +66,19 @@ class Graph:
     def Bfs(self, start):
         self.draw_graph()
         start.color = GRAY
+        self.draw_graph()
         start.d = 0
         queue = [start]
-        self.draw_graph()
         while len(queue) > 0:
             u = queue.pop(0)
-            for neighbour in u.pi:
+            for neighbour in u.adj:
                 if neighbour.color == WHITE:
+                    self.draw_graph()
                     neighbour.color = GRAY
+                    self.draw_graph()
                     neighbour.d = u.d + 1
                     neighbour.pi = [u]
                     queue.append(neighbour)
-                    self.draw_graph()
-                self.draw_graph()
             u.color = BLACK
             self.draw_graph()
 
@@ -81,28 +86,18 @@ class Node:
     def __init__(self, label, *neighbours):
         self.d = sys.maxsize
         self.color = WHITE
-        self.pi = list(neighbours)
-        self.label = label
+        self.pi = []
+        self.adj = list(neighbours)
+        self.label = str(label)
 
     def add__neighbours(self, *neighbours):
-        self.pi += neighbours
+        self.adj += neighbours
 
     def __str__(self):
-        return "Node: " + str(self.label) + " " + self.color + " neighbours: " + str(len(self.pi))
+        return "Node: " + self.label + " " + self.color + " neighbours: " + str(len(self.adj))
 
-node_1 = Node(1)
-node_2 = Node(2, node_1)
-node_3 = Node(3, node_2)
-node_4 = Node(4, node_2, node_3)
-node_5 = Node(5, node_1, node_2, node_4)
 
-node_1.add__neighbours(node_2, node_5)
-node_2.add__neighbours(node_5, node_4, node_3)
-node_3.add__neighbours(node_4)
-node_4.add__neighbours(node_5)
 
-my_graph = Graph(node_1, node_2, node_3, node_4, node_5)
-my_graph.Bfs(node_2)
-
-exercise1()
-#exercise2(my_graph)
+#exercise1()
+#input("Press Enter to continue...")
+exercise2()
