@@ -1,13 +1,12 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import sys
 
 def show_graph(graph, colors_map = None):
     if colors_map is None:
         colors_map = {}
     values = [colors_map.get(node, 0.25) for node in graph.nodes()]
-    nx.draw(graph, cmap=plt.get_cmap('magma'), node_color=values, with_labels=True, font_color='white')
+    nx.draw(graph, cmap=plt.get_cmap('cividis', 3), node_color=values, with_labels=True, font_color='white')
     plt.draw()
     plt.show()
 
@@ -56,17 +55,16 @@ class Graph:
             for neighbour in node.adj:
                 graph.add_edge(node.label, neighbour.label)
             if node.color == WHITE:
-                colors_val_map[node.label] = 0.9
+                colors_val_map[node.label] = 0
             elif node.color == GRAY:
                 colors_val_map[node.label] = 0.5
             else:
-                colors_val_map[node.label] = 0.33
+                colors_val_map[node.label] = 1
         show_graph(graph, colors_val_map)
 
     def Bfs(self, start):
         self.draw_graph()
         start.color = GRAY
-        self.draw_graph()
         start.d = 0
         queue = [start]
         while len(queue) > 0:
@@ -94,10 +92,10 @@ class Node:
         self.adj += neighbours
 
     def __str__(self):
-        return "Node: " + self.label + " " + self.color + " neighbours: " + str(len(self.adj))
+        return "Node: " + self.label + " " + self.color + " neighbours: " + str(len(self.adj)) + " d: " + str(self.d)
 
 
 
-#exercise1()
-#input("Press Enter to continue...")
+exercise1()
+input("Press Enter to continue...")
 exercise2()
