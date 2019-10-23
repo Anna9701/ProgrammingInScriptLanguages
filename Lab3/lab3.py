@@ -94,8 +94,6 @@ class Node:
     def __str__(self):
         return "Node: " + self.label + " " + self.color + " neighbours: " + str(len(self.adj)) + " d: " + str(self.d)
 
-
-
 exercise1()
 input("Press Enter to continue...")
 exercise2()
