@@ -11,8 +11,6 @@ x2 = r * np.sin(theta)
 x1_noised = x1 + np.random.rand(N) - 0.5
 x2_noised = x2 - np.random.rand(N) + 0.5
 
-
-
 B = np.array([x1_noised, x2_noised]).transpose()
 B = np.c_[B, np.ones(N)]
 rank_B = np.linalg.matrix_rank(B)
@@ -42,7 +40,6 @@ print(np.linalg.lstsq(B, b, rcond=-1)[0])
 x0 = - u[0] / 2
 y0 = - u[1] / 2
 r0 = np.ma.sqrt((u[0] ** 2 + u[1] ** 2 / 4) - u[2]).data
-
 circle_center = (x0, y0)
 
 fig, ax = plt.subplots()
