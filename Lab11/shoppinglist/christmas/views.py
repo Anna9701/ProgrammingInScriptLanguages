@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import ModelForm
 
 # Create your views here.
@@ -36,7 +36,7 @@ def add_new(request):
     record.amount = amount
     record.isBought = False
     record.save()
-    return index(request)
+    return redirect('/christmas')
 
 
 class NewRecordForm(ModelForm):
