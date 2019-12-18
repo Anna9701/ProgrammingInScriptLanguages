@@ -1,0 +1,5 @@
+<h1>Lectures found</h1>
+{% for lecture in lectures %}
+<p> Name:      {{ lecture.name }} <br/>
+    Lecturer: {{ lecture.lecturer.name }} </p>
+{%endfor%}

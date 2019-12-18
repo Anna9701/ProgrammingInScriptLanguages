@@ -29,6 +29,7 @@ class Window(QMainWindow):
         for id, ch in enumerate(options):
             rb = QRadioButton(ch)
             cbg.addButton(rb)
+            rb.setChecked(True)
             cbg.setId(rb, id)
             bl.addWidget(rb)
         cbg.buttonClicked.connect(self.nowyKolor)

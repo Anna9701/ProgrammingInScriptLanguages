@@ -1,0 +1,13 @@
+<html>
+<body>
+    {% if error %}
+    <p style="color: red;">Query</p>
+    {% endif %}
+    <p>Search</p>
+    <form action="/enrolment/search/" method="get">
+    <input type="text" name="query">
+    <input type="submit" value="Search">
+    </form>
+</body>
+</html>
+
