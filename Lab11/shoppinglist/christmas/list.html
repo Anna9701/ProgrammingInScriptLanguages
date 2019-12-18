@@ -9,6 +9,7 @@
 <body>
 <h1 class="text-center">Shopping list</h1>
 <div class="container">
+    <a href="add_new" class="btn btn-secondary" role="button">Add new</a><br/><br/>
     {% for key, value in records.items %}
         <h3> {{ key }} </h3>
         <table class="table">
@@ -16,7 +17,6 @@
                 <th>Name</th>
                 <th>Amount</th>
                 <th>Price (Total)</th>
-                <th>Bought</th>
                 <th></th>
             </tr>
             {% for record in value %}
@@ -24,15 +24,17 @@
                     <td> {{ record.name }} </td>
                     <td> {{ record.amount }} </td>
                     <td> {{ record.price }} </td>
-                    <td> {{ record.isBought }} </td>
                     <td>
-                        {% if record.isBought == "No" %}
-                            <a href="{% url 'record_id' record.id %}" class="btn btn-success" role="button">Mark as bought</a>
+                        {% if not record.isBought %}
+                            <a href="{% url 'record_id' record.id %}" class="btn btn-success" role="button">Mark bought</a>
+                        {%  else %}
+                            Bought
                         {% endif %}
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        <br/>
     {% endfor %}
 </div>
 </body>

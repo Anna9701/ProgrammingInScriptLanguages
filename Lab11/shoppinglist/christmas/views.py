@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
+from django.forms import ModelForm
 
 # Create your views here.
 
@@ -22,3 +23,15 @@ def mark_bought(request, record_id):
     record.isBought = True
     record.save()
     return index(request)
+
+
+def add_new(request):
+    if request.method == "POST":
+        return index(request)
+    return render(request, 'add_new.html', {'form': NewRecordForm()})
+
+
+class NewRecordForm(ModelForm):
+    class Meta:
+        model = ShoppingRecord
+        fields = ('product', 'shop', 'amount')
