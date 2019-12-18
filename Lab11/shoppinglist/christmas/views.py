@@ -8,11 +8,12 @@ from .models import ShoppingRecord, Shop
 
 
 def index(request):
-    records = ShoppingRecord.objects.all()
-    shoprecords = ()
-    names = [str(record) for record in records]
-    prices = [str(record.price) for record in records]
-    return render(request, 'list.html', {'names': names, 'prices': prices})
+    records = dict()
+    for record in ShoppingRecord.objects.all():
+        if not (record.shop.name in records):
+            records[record.shop.name] = list()
+        records[record.shop.name].append(Record(record.product.name, record.amount, record.price(), record.isBought))
+    return render(request, 'list.html', {'records': records})
 
 
 class ShopRecords:
@@ -22,4 +23,13 @@ class ShopRecords:
 
 class Record:
     name = str()
+    amount = str()
     price = str()
+    isBought = "No"
+
+    def __init__(self, n, a, p, b):
+        self.name = n
+        self.amount = str(a)
+        self.price = str(p)
+        if b:
+            self.isBought = "Yes"
