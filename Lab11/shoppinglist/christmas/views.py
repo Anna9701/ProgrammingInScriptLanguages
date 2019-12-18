@@ -1,11 +1,10 @@
-from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
 
 # Create your views here.
 
 from Lab11.shoppinglist.christmas.Record import Record
-from .models import ShoppingRecord
+from .models import ShoppingRecord, Shop, Product
 
 
 def index(request):
@@ -26,9 +25,18 @@ def mark_bought(request, record_id):
 
 
 def add_new(request):
-    if request.method == "POST":
-        return index(request)
-    return render(request, 'add_new.html', {'form': NewRecordForm()})
+    if request.method == "GET":
+        return render(request, 'add_new.html', {'form': NewRecordForm()})
+    amount = request.POST['amount']
+    shop = get_object_or_404(Shop, pk=request.POST['shop'])
+    product = get_object_or_404(Product, pk=request.POST['product'])
+    record = ShoppingRecord()
+    record.shop = shop
+    record.product = product
+    record.amount = amount
+    record.isBought = False
+    record.save()
+    return index(request)
 
 
 class NewRecordForm(ModelForm):
