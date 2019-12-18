@@ -11,12 +11,13 @@
 <div class="container">
     {% for key, value in records.items %}
         <h3> {{ key }} </h3>
-        <table class="table table-bordered">
+        <table class="table">
             <tr>
                 <th>Name</th>
                 <th>Amount</th>
                 <th>Price (Total)</th>
                 <th>Bought</th>
+                <th></th>
             </tr>
             {% for record in value %}
                 <tr>
@@ -24,6 +25,11 @@
                     <td> {{ record.amount }} </td>
                     <td> {{ record.price }} </td>
                     <td> {{ record.isBought }} </td>
+                    <td>
+                        {% if record.isBought == "No" %}
+                            <a href="{% url 'record_id' record.id %}" class="btn btn-success" role="button">Mark as bought</a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </table>

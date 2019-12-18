@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 
-from django.http import HttpResponse
-
-from .models import ShoppingRecord, Shop
+from Lab11.shoppinglist.christmas.Record import Record
+from .models import ShoppingRecord
 
 
 def index(request):
@@ -12,24 +12,13 @@ def index(request):
     for record in ShoppingRecord.objects.all():
         if not (record.shop.name in records):
             records[record.shop.name] = list()
-        records[record.shop.name].append(Record(record.product.name, record.amount, record.price(), record.isBought))
+        records[record.shop.name].append(
+            Record(record.id, record.product.name, record.amount, record.price(), record.isBought))
     return render(request, 'list.html', {'records': records})
 
 
-class ShopRecords:
-    records = list()
-    shop = str
-
-
-class Record:
-    name = str()
-    amount = str()
-    price = str()
-    isBought = "No"
-
-    def __init__(self, n, a, p, b):
-        self.name = n
-        self.amount = str(a)
-        self.price = str(p)
-        if b:
-            self.isBought = "Yes"
+def mark_bought(request, record_id):
+    record = get_object_or_404(ShoppingRecord, pk=record_id)
+    record.isBought = True
+    record.save()
+    return index(request)
